@@ -13,7 +13,7 @@ async function getUserVideos(
 ): Promise<(IVideoWithOwner & { _id: string })[]> {
   try {
     const res = await fetch(
-      `http://localhost:3000/api/videos/mine/`,
+      `/api/videos/mine/`,
       { cache: "no-store" }
     );
 
