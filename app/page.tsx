@@ -5,7 +5,7 @@ import { Hero } from "@/src/components/Hero";
 async function getPublicVideos(): Promise<(IVideo & { _id: string })[]> {
   try {
     const res = await fetch(
-      `http://localhost:3000/api/videos`,
+      `/api/videos`,
       {
         cache: "no-store", // always fresh videos
       }
