@@ -46,18 +46,18 @@ export async function POST(request: NextRequest) {
       );
     }
 
-   let thumbnailUrl = body.thumbnailUrl
+  //  let thumbnailUrl = body.thumbnailUrl
 
-    if(!thumbnailUrl){
-      thumbnailUrl = `${body.videoUrl}/ik-thumbnail.jpg`
-    }
+  //   if(!thumbnailUrl){
+  //     thumbnailUrl = `${body.videoUrl}/ik-thumbnail.jpg`
+  //   }
 
     const videoData = {
       ...body,
       owner: session.user.id,
       controls: body?.controls ?? true,
       visibility: body.visibility || "public",
-      thumbnailUrl,
+      // thumbnailUrl,
       transformation: {
         height: 1920,
         width: 1080,
