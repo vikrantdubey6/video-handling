@@ -3,6 +3,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/option";
 import VideoFeed from "@/src/components/VideoFeed";
 import { IVideo } from "@/src/models/Video";
+import { headers } from "next/headers";
+
 
 interface IVideoWithOwner extends IVideo {
   owner: string;
@@ -12,6 +14,17 @@ async function getUserVideos(
   userId: string
 ): Promise<(IVideoWithOwner & { _id: string })[]> {
   try {
+
+    const headersList = headers();
+  const host = (await headersList).get("host");
+
+  if (!host) {
+    throw new Error("Host not found");
+  }
+
+   const protocol =
+    process.env.NODE_ENV === "development" ? "http" : "https";
+
     const res = await fetch(
       `${protocol}://${host}/api/videos/mine/`,
       { cache: "no-store" }

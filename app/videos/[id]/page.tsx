@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { Video } from "@imagekit/next";
 import { IVideo } from "@/src/models/Video";
-;
+import { headers } from "next/headers";
 
 
 interface VideoPageProps {
@@ -14,6 +14,15 @@ async function getVideoById(
   id: string
 ): Promise<(IVideo & { _id: string }) | null> {
   try {
+    const headersList = headers();
+  const host = (await headersList).get("host");
+
+  if (!host) {
+    throw new Error("Host not found");
+  }
+
+  const protocol =
+    process.env.NODE_ENV === "development" ? "http" : "https";
     const res = await fetch(
       `${protocol}://${host}/api/videos/${id}/`,
       {
