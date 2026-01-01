@@ -15,7 +15,7 @@ async function getVideoById(
 ): Promise<(IVideo & { _id: string }) | null> {
   try {
     const res = await fetch(
-      `/api/videos/${id}/`,
+      `${protocol}://${host}/api/videos/${id}/`,
       {
         cache: "no-store",
       }
