@@ -43,6 +43,7 @@ export function CardDemo() {
     }
 
     toast.success("Logged in successfully");
+    router.refresh();
     router.push("/dashboard");
     }
   return (
