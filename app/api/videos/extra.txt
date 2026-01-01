@@ -1,0 +1,74 @@
+import Video from "@/src/models/Video";
+import { getServerSession } from "next-auth";
+import { NextRequest, NextResponse } from "next/server";
+import { authOptions } from "../auth/[...nextauth]/option";
+import dbConnect from "@/src/lib/db";
+
+export async function GET() {
+  try {
+    await dbConnect();
+
+    const videos = await Video.find({})
+      .sort({ createdAt: -1 })
+      .lean();
+
+    return NextResponse.json(videos);
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Failed to fetch videos" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    await dbConnect();
+
+    const body: CreateVideoPayload = await request.json();
+
+    if (
+      !body.title ||
+      !body.description ||
+      !body.videoUrl ||
+      !body.thumbnailUrl
+    ) {
+      return NextResponse.json(
+        { error: "Missing required fields" },
+        { status: 400 }
+      );
+    }
+
+    // ✅ Basic ImageKit URL validation
+    if (!body.videoUrl.includes("ik.imagekit.io")) {
+      return NextResponse.json(
+        { error: "Invalid video URL" },
+        { status: 400 }
+      );
+    }
+
+    const newVideo = await Video.create({
+      title: body.title,
+      description: body.description,
+      videoUrl: body.videoUrl,
+      thumbnailUrl: body.thumbnailUrl,
+      owner: session.user.id, // 🔥 ownership enforced
+      controls: true,
+      isPublished: false,
+    });
+
+    return NextResponse.json(newVideo, { status: 201 });
+  } catch (error) {
+    console.error("Video creation error:", error);
+    return NextResponse.json(
+      { error: "Failed to create video" },
+      { status: 500 }
+    );
+  }
+}
