@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
       owner: session.user.id,
       controls: body?.controls ?? true,
       visibility: body.visibility || "public",
-      // thumbnailUrl,
+      thumbnailUrl,
       transformation: {
         height: 1920,
         width: 1080,
