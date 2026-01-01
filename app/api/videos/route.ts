@@ -46,11 +46,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-  //  let thumbnailUrl = body.thumbnailUrl
+   let thumbnailUrl = body.thumbnailUrl
 
-  //   if(!thumbnailUrl){
-  //     thumbnailUrl = `${body.videoUrl}/ik-thumbnail.jpg`
-  //   }
+    if(!thumbnailUrl){
+      thumbnailUrl = `${body.videoUrl}/ik-thumbnail.jpg`
+    }
 
     const videoData = {
       ...body,
