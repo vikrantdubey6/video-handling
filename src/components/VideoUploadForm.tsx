@@ -161,7 +161,8 @@ export default function VideoUploadForm() {
       </Card>
 
       {/* 🚀 PUBLISH */}
-      <Button
+      <div className="flex gap-4">
+         <Button
         onClick={handleSubmit}
         variant="outline"
         disabled={!isFormValid || submitting}
@@ -179,6 +180,8 @@ export default function VideoUploadForm() {
         >
           Cancel
         </Button>
+      </div>
+     
     </div>
   );
 }

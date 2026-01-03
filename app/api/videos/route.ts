@@ -64,6 +64,10 @@ export async function POST(request: NextRequest) {
         quality: body.transformation?.quality ?? 100,
       },
     };
+    if (!body.videoUrl || !body.videoUrl.includes(".mp4")) {
+      // toast.error("invalid video format")
+  return NextResponse.json({ error: "Invalid video file" });
+}
     const newVideo = await Video.create(videoData);
 
     return NextResponse.json(newVideo);
