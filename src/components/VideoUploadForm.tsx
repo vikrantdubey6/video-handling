@@ -166,7 +166,7 @@ export default function VideoUploadForm() {
         onClick={handleSubmit}
         variant="outline"
         disabled={!isFormValid || submitting}
-        className="w-full"
+        className="flex-1"
         size="lg"
       >
         {submitting ? "Publishing..." : "Publish Video"}
